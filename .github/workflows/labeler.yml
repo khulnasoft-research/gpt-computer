@@ -1,0 +1,118 @@
+name: PR Labeling & Validation
+on:
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - labeled
+      - unlabeled
+      - edited
+  issues:
+    types:
+      - opened
+      - edited
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  labeler:
+    name: Automatic Labeling
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply labels based on files and content
+        uses: actions/labeler@v6
+        if: github.event.action != 'labeled' && github.event.action != 'unlabeled'
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          configuration-path: .github/labeler.yml
+
+      - name: Log applied labels
+        run: echo "✅ Labels applied successfully"
+
+  validate-labels:
+    name: Validate PR Labels
+    needs: labeler
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Validate that at least one label is applied
+        uses: amannn/action-semantic-pull-request@v5.4.0
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          types: |
+            feature
+            fix
+            docs
+            refactor
+            test
+            chore
+            perf
+            ci
+            revert
+          ignoreLabels: |
+            skip-label-check
+            dependencies
+          headerPatternCorrespondence: type
+        continue-on-error: true
+
+  check-required-labels:
+    name: Enforce Required Labels
+    needs: labeler
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request_target'
+    steps:
+      - name: Check for required labels
+        uses: docker://agilepathway/pull-request-label-checker:latest
+        with:
+          one_of: bug,enhancement,documentation,refactor,ci/cd,dependencies
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: false
+
+  comment-on-label-addition:
+    name: Provide Label Context
+    runs-on: ubuntu-latest
+    if: github.event.action == 'labeled'
+    steps:
+      - name: Comment with label information
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const label = context.payload.label.name;
+            const labelDescriptions = {
+              'bug': '🐛 This is a bug report. The issue describes unexpected behavior.',
+              'enhancement': '✨ This is a feature request or improvement.',
+              'documentation': '📚 This is a documentation update.',
+              'refactor': '♻️ This is a code refactor or cleanup.',
+              'testing': '🧪 This is related to tests or coverage.',
+              'ai': '🤖 This involves AI/LLM integration.',
+              'python': '🐍 This is Python-specific.',
+              'async': '⚡ This involves asynchronous patterns.',
+              'performance': '⚙️ This is a performance optimization.',
+              'security': '🔒 This is a security concern.',
+              'good first issue': '👋 This is a good issue for new contributors!',
+              'help wanted': '🤝 We need help with this issue.',
+              'priority: critical': '🔴 This is critical and needs immediate attention.',
+              'priority: high': '🟠 This has high priority.',
+              'priority: low': '🟢 This has low priority.'
+            };
+            
+            const description = labelDescriptions[label] || '';
+            if (description) {
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: description
+              });
+            }
+        continue-on-error: true

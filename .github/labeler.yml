@@ -1,0 +1,457 @@
+# GitHub Issue Labeler Configuration
+# Automatically labels issues based on file paths and content patterns
+# Python/AI-focused configuration for gpt-computer repository
+
+# ============================================================================
+# FILE-BASED LABELS: Applied when specific file paths are changed
+# ============================================================================
+files:
+  # Core Python Package
+  'gpt_computer/**':
+    - python
+
+  # Core functionality
+  'gpt_computer/core/**':
+    - core
+    - backend
+    - python
+
+  # API related
+  'gpt_computer/api/**':
+    - api
+    - backend
+    - python
+
+  # Agent functionality & AI
+  'gpt_computer/agent/**':
+    - agent
+    - ai
+    - python
+
+  # LLM Integrations
+  'gpt_computer/llm/**':
+    - ai
+    - llm-integration
+    - python
+
+  # CLI application
+  'gpt_computer/applications/cli/**':
+    - cli
+    - application
+    - python
+
+  # Async/Threading
+  'gpt_computer/async/**':
+    - async
+    - python
+  'gpt_computer/**/async*':
+    - async
+    - python
+
+  # Benchmarking
+  'benchmark/**':
+    - benchmark
+    - testing
+    - python
+
+  # Tests
+  'tests/**':
+    - testing
+    - python
+  'test_*.py':
+    - testing
+    - python
+  '*_test.py':
+    - testing
+    - python
+
+  # Documentation
+  'docs/**':
+    - documentation
+  'README.md':
+    - documentation
+  'CHANGELOG.md':
+    - documentation
+  '**.md':
+    - documentation
+  '**.rst':
+    - documentation
+
+  # Configuration files
+  'pyproject.toml':
+    - dependencies
+    - configuration
+    - python
+  'poetry.lock':
+    - dependencies
+    - python
+  'uv.lock':
+    - dependencies
+    - python
+  'requirements.txt':
+    - dependencies
+    - python
+  'setup.py':
+    - dependencies
+    - python
+  'setup.cfg':
+    - dependencies
+    - python
+  'Makefile':
+    - build
+    - configuration
+  'tox.ini':
+    - testing
+    - ci/cd
+    - python
+
+  # Docker & Deployment
+  'docker-compose.yml':
+    - docker
+    - deployment
+  'docker/**':
+    - docker
+    - deployment
+  'Dockerfile':
+    - docker
+    - deployment
+
+  # CI/CD & Automation
+  '.github/workflows/**':
+    - ci/cd
+    - automation
+  '.github/ISSUE_TEMPLATE/**':
+    - configuration
+  '.github/PULL_REQUEST_TEMPLATE/**':
+    - configuration
+  '.github/dependabot.yml':
+    - ci/cd
+    - dependencies
+    - automation
+
+  # Pre-commit & Linting
+  '.pre-commit-config.yaml':
+    - code-quality
+    - python
+  '.flake8':
+    - code-quality
+    - python
+  'ruff.toml':
+    - code-quality
+    - python
+  'pyproject.toml':
+    - code-quality
+    - python
+
+  # Scripts
+  'scripts/**':
+    - scripts
+    - automation
+    - python
+
+  # Projects and examples
+  'projects/**':
+    - examples
+    - projects
+  'examples/**':
+    - examples
+    - projects
+
+  # Environment & Configuration
+  '.env.template':
+    - configuration
+  '.gitignore':
+    - configuration
+  '.gitattributes':
+    - configuration
+
+# ============================================================================
+# CONTENT-BASED LABELS: Applied based on title/body pattern matching
+# ============================================================================
+labels:
+  # ========== TYPE LABELS ==========
+  bug:
+    - '[bug]'
+    - '[type: bug]'
+    - 'broken'
+    - 'error'
+    - 'exception'
+    - 'crash'
+    - 'fail'
+    - 'failed'
+    - 'not working'
+    - 'unexpected behavior'
+    - 'regression'
+    - 'defect'
+
+  enhancement:
+    - '[feature]'
+    - '[enhancement]'
+    - '[type: feature]'
+    - '[type: enhancement]'
+    - 'add'
+    - 'implement'
+    - 'new'
+    - 'support'
+    - 'improve'
+    - 'request'
+
+  documentation:
+    - '[docs]'
+    - '[documentation]'
+    - '[type: docs]'
+    - 'readme'
+    - 'guide'
+    - 'tutorial'
+    - 'docstring'
+    - 'api documentation'
+    - 'update docs'
+
+  refactor:
+    - '[refactor]'
+    - '[type: refactor]'
+    - 'refactor'
+    - 'rewrite'
+    - 'simplify'
+    - 'cleanup'
+    - 'code cleanup'
+    - 'reorganize'
+
+  testing:
+    - '[test]'
+    - '[testing]'
+    - '[type: test]'
+    - 'tests'
+    - 'unit test'
+    - 'integration test'
+    - 'coverage'
+    - 'pytest'
+    - 'test suite'
+    - 'e2e test'
+
+  ci/cd:
+    - '[ci]'
+    - '[ci/cd]'
+    - '[type: ci]'
+    - 'github actions'
+    - 'workflow'
+    - 'automation'
+    - 'pipeline'
+    - 'continuous integration'
+
+  # ========== PRIORITY LABELS ==========
+  'priority: critical':
+    - '[P0]'
+    - '[critical]'
+    - 'urgent'
+    - 'blocker'
+    - 'blocking'
+    - 'production down'
+    - 'data loss'
+    - 'security breach'
+
+  'priority: high':
+    - '[P1]'
+    - '[high]'
+    - 'high priority'
+    - 'important'
+
+  'priority: medium':
+    - '[P2]'
+    - '[medium]'
+    - 'medium priority'
+
+  'priority: low':
+    - '[P3]'
+    - '[low]'
+    - 'low priority'
+    - 'minor'
+    - 'nice to have'
+
+  # ========== AREA LABELS ==========
+  ai:
+    - 'llm'
+    - 'gpt'
+    - 'openai'
+    - 'claude'
+    - 'anthropic'
+    - 'model'
+    - 'prompt'
+    - 'embedding'
+    - 'langchain'
+    - 'agent'
+    - 'inference'
+    - 'model api'
+
+  'llm-integration':
+    - 'gpt-4'
+    - 'gpt-3.5'
+    - 'claude 3'
+    - 'gemini'
+    - 'mixtral'
+    - 'llama'
+    - 'local models'
+    - 'ollama'
+    - 'vllm'
+    - 'huggingface'
+
+  async:
+    - 'async'
+    - 'asyncio'
+    - 'concurrent'
+    - 'threading'
+    - 'parallel'
+    - 'streaming'
+    - 'non-blocking'
+    - 'await'
+
+  performance:
+    - '[performance]'
+    - 'slow'
+    - 'optimize'
+    - 'memory'
+    - 'speed'
+    - 'latency'
+    - 'bottleneck'
+    - 'benchmark'
+    - 'profiling'
+
+  security:
+    - '[security]'
+    - 'vulnerability'
+    - 'exploit'
+    - 'auth'
+    - 'permission'
+    - 'authentication'
+    - 'authorization'
+    - 'encryption'
+    - 'cve'
+
+  dependencies:
+    - '[deps]'
+    - 'dependency'
+    - 'requirement'
+    - 'install'
+    - 'package'
+    - 'poetry'
+    - 'uv'
+    - 'pip'
+    - 'upgrade'
+    - 'version bump'
+    - 'dependabot'
+
+  docker:
+    - '[docker]'
+    - 'container'
+    - 'image'
+    - 'dockerfile'
+    - 'docker-compose'
+    - 'containerization'
+
+  api:
+    - '[api]'
+    - 'endpoint'
+    - 'rest'
+    - 'http'
+    - 'server'
+    - 'fastapi'
+    - 'request'
+    - 'response'
+
+  cli:
+    - '[cli]'
+    - 'command line'
+    - 'terminal'
+    - 'shell'
+    - 'typer'
+
+  configuration:
+    - '[config]'
+    - 'settings'
+    - 'environment'
+    - 'env'
+    - 'environment variable'
+    - 'config file'
+
+  build:
+    - '[build]'
+    - 'compile'
+    - 'package'
+    - 'release'
+    - 'distribution'
+
+  'code-quality':
+    - '[refactor]'
+    - 'cleanup'
+    - 'style'
+    - 'lint'
+    - 'format'
+    - 'ruff'
+    - 'black'
+    - 'pre-commit'
+    - 'code style'
+
+  python:
+    - 'python'
+    - '.py'
+    - 'python version'
+    - 'python 3'
+
+  # ========== PLATFORM LABELS ==========
+  'platform: linux':
+    - 'linux'
+    - 'ubuntu'
+    - 'debian'
+    - 'fedora'
+    - 'centos'
+
+  'platform: macos':
+    - 'macos'
+    - 'darwin'
+    - 'apple'
+    - 'osx'
+    - 'mac'
+
+  'platform: windows':
+    - 'windows'
+    - 'win'
+    - 'wsl'
+    - 'powershell'
+
+  # ========== STATUS LABELS ==========
+  'good first issue':
+    - '[good first issue]'
+    - 'beginner'
+    - 'easy'
+    - 'simple'
+    - 'starter'
+    - 'newbie'
+
+  'help wanted':
+    - '[help wanted]'
+    - 'assistance'
+    - 'support needed'
+    - 'looking for help'
+
+  wontfix:
+    - 'wontfix'
+    - 'won''t fix'
+    - 'not a bug'
+    - 'intentional'
+
+  duplicate:
+    - 'duplicate'
+    - 'duplicated'
+
+  invalid:
+    - 'invalid'
+    - 'not an issue'
+
+  stale:
+    - 'stale'
+    - 'no activity'
+
+  'needs review':
+    - 'needs review'
+    - 'awaiting review'
+    - 'review needed'
